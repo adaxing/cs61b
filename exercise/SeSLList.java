@@ -29,17 +29,24 @@ public class SeSLList {
 	}
 	public SeSLList(int x){
 		sentinel = new IntNode(61, null);
-		sentinel.next = new IntNode(x, null);
+		sentinel.next = last = new IntNode(x, null);
+		//sentinel.next.next = last;
 		size = 1;
 	}
 	/** return nothing; add x to front */
 	public void addFirst(int x) {
 		sentinel.next = new IntNode(x, sentinel.next);
+		last.next = last;
+		//sentinel.next.next = last;
 		size += 1;
 	}
 	/** return first item in the list */
 	public int getFirst() {
 		return sentinel.next.item;
+	}
+	/** return last item in the list */
+	public int getLast() {
+		return last.item;
 	}
 	/** add an item to the end of list */
 	public void addLast(int x) {
@@ -52,9 +59,19 @@ public class SeSLList {
 		// 	p = p.next;
 		// }
 		// p.next = new IntNode(x, null);
-		last.next = new IntNode(x, null);
-		last = last.next;
+		IntNode p = new IntNode(x, null);
+		if (sentinel.next == null) {
+			sentinel.next = last = p;
+			size += 1;
+			return;
+		}
+		last.next = p;
+		last = p;
 		size += 1;
+		return;
+	}
+	public void removeFirst() {
+		sentinel.next = sentinel.next.next;
 	}
 	/** helper method  */
 	/** Returns the size of the list that starts at IntNode p. */
@@ -76,13 +93,18 @@ public class SeSLList {
 		/** caching to speed up */
 		return size;
 	}
+	public int returns() {
+		System.out.println(last.item);
+		return 1;
+	}
 	public static void main(String[] args){
 		/** creates a list of one integer -> 10 */
-		SeSLList L = new SeSLList();
-		L.addLast(10);
-		L.addLast(20);
-		L.addLast(30);
-		L.addLast(40);
-		//System.out.println(L.getFirst());
+		SeSLList L = new SeSLList(10);
+		L.addFirst(20);
+		L.addLast(25);
+		//L.addLast(30);
+		//L.addLast(40);
+		L.removeFirst();
+		System.out.println(L.getLast());
 	}
 }
