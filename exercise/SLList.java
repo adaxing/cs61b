@@ -1,21 +1,21 @@
 /** hides the detail that there exists a null link from the user */
-public class SLList {
+public class SLList<Item> {
 
 	/** Can not access any out of class
 		save tiny memory as each IntNode
 		no longer needs to keep track of 
 		how to access enclosing SLList */
-	private static class IntNode {
-		public int item;
-		public IntNode next;
+	private class Node {
+		public Item items;
+		public Node next;
 
-		public IntNode(int i, IntNode n) {
-			item = i;
+		public Node(Item i, Node n) {
+			items = i;
 			next = n;
 		}
 	}
 
-	public IntNode first;
+	public Node first;
 	/** keep track of size */
 	private int size;
 
@@ -23,38 +23,50 @@ public class SLList {
 		first = null;
 		size = 0;
 	}
-	public SLList(int x){
-		first = new IntNode(x, null);
+	public Item get(int i) {
+		if (i >= size) {
+			return null;
+		}
+		else if (i == 0) {
+			return first.items;
+		}
+		Node p = first;
+		for (int j=0; j<=i; j++) {
+			p = p.next;
+		}
+		return p.items;
+	} 
+	public SLList(Item x){
+		first = new Node(x, null);
 		size = 1;
 	}
 	/** return nothing; add x to front */
-	public void addFirst(int x) {
-		first = new IntNode(x, first);
+	public void addFirst(Item x) {
+		first = new Node(x, first);
 		size += 1;
 	}
 	/** return first item in the list */
-	public int getFirst() {
-		return first.item;
+	public Item getFirst() {
+		return first.items;
 	}
 	/** add an item to the end of list */
-	public void addLast(int x) {
+	public void addLast(Item x) {
 		/** handle case with list of null */
 		if (first == null) {
-			first = new IntNode(x, null);
-			return;
+			first = new Node(x, null);
 		}
 
-		IntNode p = first;
+		Node p = first;
 		/** move p until it reaches the end of list */
 		while (p.next != null) {
 			p = p.next;
 		}
-		p.next = new IntNode(x, null);
+		p.next = new Node(x, null);
 		size += 1;
 	}
 	/** helper method  */
 	/** Returns the size of the list that starts at IntNode p. */
-	private static int size(IntNode p) {
+	private int size(Node p) {
 		if (p.next == null) {
 			return 1;
 		}
@@ -72,10 +84,12 @@ public class SLList {
 		/** caching to speed up */
 		return size;
 	}
-	public static void main(String[] args){
-		/** creates a list of one integer -> 10 */
-		SLList L = new SLList();
-		L.addLast(20);
-		System.out.println(L.getFirst());
-	}
+	// public static void main(String[] args){
+	// 	/** creates a list of one integer -> 10 */
+	// 	SLList<String> L = new SLList<>();
+	// 	L.addLast("abc");
+	// 	L.addLast("de");
+	// 	L.addLast("lalalala");
+	// 	System.out.println(L.get(3));
+	// }
 }
