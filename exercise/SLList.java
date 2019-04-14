@@ -1,5 +1,5 @@
 /** hides the detail that there exists a null link from the user */
-public class SLList<Item> {
+public class SLList<Item> implements List61B<Item> {
 
 	/** Can not access any out of class
 		save tiny memory as each IntNode
@@ -48,6 +48,32 @@ public class SLList<Item> {
 	/** return first item in the list */
 	public Item getFirst() {
 		return first.items;
+	}
+	private Node getLastNode() {
+		Node p = first;
+		/** move p until it reaches the end of list */
+		while (p.next != null) {
+			p = p.next;
+		}
+		return p;
+	}
+	/** return last node */
+	public Item getLast() {
+		Node last = getLastNode();
+		return last.items;
+	}
+	/** delete and return last item */
+	public Item removeLast() {
+		Node last = getLastNode();
+		if (last == first) {
+			return null;
+		}
+		Node p = first;
+		while (p.next != last) {
+			p = p.next;
+		}
+		p.next = null;
+		return last.items;
 	}
 	/** add an item to the end of list */
 	public void addLast(Item x) {
