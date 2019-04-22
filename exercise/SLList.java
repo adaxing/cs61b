@@ -42,7 +42,9 @@ public class SLList<Item> implements List61B<Item> {
 	}
 	/** return nothing; add x to front */
 	public void addFirst(Item x) {
-		first = new Node(x, first);
+		Node oldFirst = first.next;
+		Node newNode = new Node(x, oldFirst);
+		first.next = newNode;
 		size += 1;
 	}
 	/** return first item in the list */
@@ -110,6 +112,15 @@ public class SLList<Item> implements List61B<Item> {
 		/** caching to speed up */
 		return size;
 	}
+	/** prints the list */
+	@Override
+	public void print() {
+		for (Node p=first.next; p!=null; p=p.next) {
+			System.out.print(p.items + " ");
+		}
+		System.out.println();
+	}
+
 	// public static void main(String[] args){
 	// 	/** creates a list of one integer -> 10 */
 	// 	SLList<String> L = new SLList<>();
